@@ -87,8 +87,9 @@ function objEquiv(a, b, opts) {
 
   // XXXhumph: allow opts.ignoreArrayOrder to treat arrays like unordered sets.
   if(Array.isArray(a) && Array.isArray(b) && opts.ignoreArrayOrder) {
-    a = a.slice().sort();
-    b = b.slice().sort();
+    // XXXhumph: also allow passing a compare function for the sort (e.g., object sorting)
+    a = a.slice().sort(opts.compareFn);
+    b = b.slice().sort(opts.compareFn);
   }
 
   //equivalent values for every corresponding key, and

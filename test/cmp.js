@@ -28,6 +28,84 @@ test('equal - arrays in any order with flag', function (t) {
     t.end();
 });
 
+test('equal - arrays in any order with flag from makedrive', function (t) {
+  var a = [{
+          path: 'dir',
+          links: 1,
+          size: 0,
+          type: 'DIRECTORY',
+          contents: [{
+                      path: 'myfile1.txt',
+                      links: 1,
+                      size: 14,
+                      type: 'FILE'
+                    },
+                    {
+                      path: 'subdir',
+                      links: 1,
+                      size: 0,
+                      type: 'DIRECTORY',
+                      contents: [{
+                                  path: 'myfile3.txt',
+                                  links: 1,
+                                  size: 14,
+                                  type: 'FILE'
+                                }]
+                    }]
+        },
+        {
+          path: 'myfile2.txt',
+          links: 1,
+          size: 14,
+          type: 'FILE'
+        }];
+
+  var b = [{
+          path: 'dir',
+          links: 1,
+          size: 0,
+          type: 'DIRECTORY',
+          contents: [{
+                      path: 'subdir',
+                      links: 1,
+                      size: 0,
+                      type: 'DIRECTORY',
+                      contents: [{
+                                  path: 'myfile3.txt',
+                                  links: 1,
+                                  size: 14,
+                                  type: 'FILE'
+                                }]
+                    },
+                    {
+                      path: 'myfile1.txt',
+                      links: 1,
+                      size: 14,
+                      type: 'FILE'
+                    }]
+        },
+        {
+          path: 'myfile2.txt',
+          links: 1,
+          size: 14,
+          type: 'FILE'
+        }];
+
+  function maybeComparePath(a, b) {
+    // If objects have a .path property, use it.
+    if(a.path && b.path) {
+      a = a.path;
+      b = b.path;
+    }
+    if(a > b) return 1;
+    if(a < b) return -1;
+    return 0;
+  }
+
+  t.ok(equal(a, b, { ignoreArrayOrder: true, compareFn: maybeComparePath }));
+  t.end();
+});
+
 test('not equal', function (t) {
     t.notOk(equal(
         { x : 5, y : [6] },
