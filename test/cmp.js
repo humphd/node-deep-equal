@@ -11,6 +11,23 @@ test('equal', function (t) {
     t.end();
 });
 
+test('equal - arrays in any order without flag', function (t) {
+    t.notOk(equal(
+        { a : [ 3, 2 ], b : [ 4 ] },
+        { a : [ 2, 3 ], b : [ 4 ] }
+    ));
+    t.end();
+});
+
+test('equal - arrays in any order with flag', function (t) {
+    t.ok(equal(
+        { a : [ 3, 2 ], b : [ 4 ] },
+        { a : [ 2, 3 ], b : [ 4 ] },
+        { ignoreArrayOrder: true }
+    ));
+    t.end();
+});
+
 test('not equal', function (t) {
     t.notOk(equal(
         { x : 5, y : [6] },

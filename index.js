@@ -84,6 +84,13 @@ function objEquiv(a, b, opts) {
     if (ka[i] != kb[i])
       return false;
   }
+
+  // XXXhumph: allow opts.ignoreArrayOrder to treat arrays like unordered sets.
+  if(Array.isArray(a) && Array.isArray(b) && opts.ignoreArrayOrder) {
+    a = a.slice().sort();
+    b = b.slice().sort();
+  }
+
   //equivalent values for every corresponding key, and
   //~~~possibly expensive deep test
   for (i = ka.length - 1; i >= 0; i--) {
